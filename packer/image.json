@@ -1,0 +1,44 @@
+{
+  "variables": {
+    "gce_credentials": "{{env `GCE_CREDENTIALS`}}",
+    "gce_project_id": "{{env `GCE_PROJECT_ID`}}",
+    "gce_zone": "{{env `GCE_ZONE`}}",
+    "gce_subnet_id": "{{env `GCE_SUBNET_ID`}}",
+    "gce_source_image_family": "debian-10",
+    "ssh_username": "packer",
+    "custom_image_name": "zeek-fluentd-golden-image-v1",
+    "custom_image_family": "zeek-fluentd-family"
+  },
+
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "{{ user `gce_credentials`}}",
+      "project_id": "{{ user `gce_project_id`}}",
+      "zone": "{{user `gce_zone`}}",
+      "subnetwork": "{{user `gce_subnet_id`}}",
+      "source_image_family": "{{user `gce_source_image_family`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "image_name": "{{user `custom_image_name`}}",
+      "image_description": "packer-{{user `custom_image_name`}}",
+      "image_family": "{{user `custom_image_family`}}"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["mkdir /tmp/files"]
+    },
+    {
+      "type": "file",
+      "source": "files/",
+      "destination": "/tmp/files/"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo {{user `ssh_username`}} | sudo -S env {{ .Vars }} {{ .Path }}",
+      "scripts": ["scripts/zeek.sh", "scripts/fluentd.sh"]
+    }
+  ]
+}

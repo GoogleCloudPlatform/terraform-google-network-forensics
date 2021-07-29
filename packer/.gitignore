@@ -1,0 +1,32 @@
+.DS_Store
+.env
+.flaskenv
+*.pyc
+*.pyo
+env/
+dist/
+build/
+*.egg
+*.egg-info/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+.vscode/
+docs/_build/
+__pycache__/
+local.env
+~$*.docx
+
+# Coverage and Test output
+coverage.txt
+test.txt
+report.xml
+fn_chronicle_integration/tests/mock_data/mock_log_file.log
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover
