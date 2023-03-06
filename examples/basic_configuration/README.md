@@ -18,7 +18,7 @@ Above variables can be set either by specifying it through [Environment Variable
 
 ```tf
   gcp_project_id = "{{collector_project_id}}"
-  
+
   service_account_email = "{{User's Service Account Email.}}"
 
   collector_vpc_name    = "{{collector-vpc}}"

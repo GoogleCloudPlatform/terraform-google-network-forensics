@@ -24,11 +24,6 @@ variable "credentials" {
   default     = ""
 }
 
-variable "bucket" {
-  description = "Name of the bucket to store .tfstate file remotely."
-  type        = string
-}
-
 # -------------------------------------------------------------- #
 # MODULE VARIABLES
 # -------------------------------------------------------------- #
@@ -59,18 +54,6 @@ variable "subnets" {
 
 variable "mirror_vpc_subnets" {
   description = "Mirror VPC Subnets list to be mirrored."
-  type        = map(list(string))
-  default     = {}
-}
-
-variable "mirror_vpc_tags" {
-  description = "Mirror VPC Tags list to be mirrored."
-  type        = map(list(string))
-  default     = {}
-}
-
-variable "mirror_vpc_instances" {
-  description = "Mirror VPC Instances list to be mirrored. (Note: Mirror VPC should reside in the same project as collector VPC because cross project referencing of instances is not allowed by GCP)"
   type        = map(list(string))
   default     = {}
 }

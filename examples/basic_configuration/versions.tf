@@ -22,5 +22,4 @@ terraform {
       version = ">= 3.55"
     }
   }
-  backend "gcs" {}
 }

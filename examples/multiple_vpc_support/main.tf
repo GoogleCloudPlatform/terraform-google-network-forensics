@@ -27,7 +27,7 @@ provider "google" {
 # -------------------------------------------------------------- #
 
 module "google_zeek_automation" {
-  source                = "<link>/google_zeek_automation"
+  source                = "../.."
   gcp_project           = var.gcp_project_id
   service_account_email = var.service_account_email
 

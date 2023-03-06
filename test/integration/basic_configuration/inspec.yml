@@ -19,7 +19,7 @@ version: 0.1.0
 depends:
   - name: inspec-gcp
     git: https://github.com/inspec/inspec-gcp.git
-attributes: 
+attributes:
   - name: project_id
     required: true
     type: string
@@ -29,5 +29,5 @@ attributes:
   - name: region
     required: true
     type: string
-supports: 
+supports:
   - platform: gcp

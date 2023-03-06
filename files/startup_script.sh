@@ -13,10 +13,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# shellcheck disable=SC2016,SC2034,SC2086,SC2001
 
 sudo userdel -r packer
 
-export INTERFACE_NAME=$(ip -br link | grep -v LOOPBACK | awk '{ print $1 }')
+INTERFACE_NAME=$(ip -br link | grep -v LOOPBACK | awk '{ print $1 }')
+export INTERFACE_NAME
 
 sed -i 's/"vpc"/"${vpc_name}"/' /usr/local/zeek/share/zeek/site/add_fields.zeek
 sed -i 's/"project"/"${project_id}"/' /usr/local/zeek/share/zeek/site/add_fields.zeek

@@ -18,11 +18,6 @@
 # BACKEND CONFIGURATION VARIABLES
 # -------------------------------------------------------------- #
 
-variable "bucket" {
-  description = "Name of the bucket to store .tfstate file remotely."
-  type        = string
-}
-
 variable "credentials" {
   description = "GCP credentials file"
   type        = string

@@ -24,11 +24,6 @@ variable "credentials" {
   default     = ""
 }
 
-variable "bucket" {
-  description = "Name of the bucket to store .tfstate file remotely."
-  type        = string
-}
-
 # -------------------------------------------------------------- #
 # MODULE VARIABLES
 # -------------------------------------------------------------- #

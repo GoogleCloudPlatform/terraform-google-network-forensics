@@ -16,7 +16,6 @@
 
 module "multiple_vpc_support" {
   source                = "../../../examples/multiple_vpc_support"
-  bucket                = var.bucket
   credentials           = var.credentials
   gcp_project_id        = var.gcp_project_id
   service_account_email = var.service_account_email

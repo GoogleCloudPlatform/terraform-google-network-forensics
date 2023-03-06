@@ -39,8 +39,8 @@ control "gcp" do
   end
 
   describe google_compute_forwarding_rule(
-    project: project_id, 
-    region: region, 
+    project: project_id,
+    region: region,
     name: "#{network_name}-01"
     ) do
     its('load_balancing_scheme') { should match "INTERNAL" }
@@ -48,7 +48,7 @@ control "gcp" do
 
   describe google_compute_health_check(
     project: project_id,
-    region: region, 
+    region: region,
     name: "#{network_name}-http-health-check"
     ) do
       it { should exist }
@@ -56,7 +56,7 @@ control "gcp" do
 
   describe google_compute_instance_template(
     project: project_id,
-    region: region, 
+    region: region,
     name: "#{network_name}-01"
     ) do
       it { should exist }
@@ -64,7 +64,7 @@ control "gcp" do
 
   describe google_compute_region_instance_group_manager(
     project: project_id,
-    region: region, 
+    region: region,
     name: "#{network_name}-01"
     ) do
       it { should exist }

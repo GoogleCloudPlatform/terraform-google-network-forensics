@@ -16,7 +16,6 @@
 
 module "basic_configuration" {
   source                = "../../../examples/basic_configuration"
-  bucket                = var.bucket
   credentials           = var.credentials
   gcp_project_id        = var.gcp_project_id
   service_account_email = var.service_account_email

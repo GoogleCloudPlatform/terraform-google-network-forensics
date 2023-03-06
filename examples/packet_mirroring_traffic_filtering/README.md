@@ -23,7 +23,7 @@ Above variables can be set either by specifying it through [Environment Variable
 
 ```tf
   gcp_project_id = "{{collector_project_id}}"
-  
+
   service_account_email = "{{User's Service Account Email.}}"
 
   collector_vpc_name    = "{{collector-vpc}}"
@@ -42,9 +42,9 @@ Above variables can be set either by specifying it through [Environment Variable
     "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
   }
 
-  
+
   # Packet Mirroring Traffic Filtering
-  
+
   ip_protocols = ["{{protocol}}"]              # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
 
   direction = "{{direction_of_traffic}}"       # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"

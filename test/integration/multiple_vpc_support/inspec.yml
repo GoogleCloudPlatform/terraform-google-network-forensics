@@ -29,5 +29,5 @@ attributes:
   - name: region
     required: true
     type: string
-supports: 
+supports:
   - platform: gcp

@@ -20,7 +20,7 @@ Above variables can be set either by specifying it through [Environment Variable
 
 ```tf
   gcp_project_id = "{{collector_project_id}}"
-  
+
   service_account_email = "{{User's Service Account Email.}}"
 
   collector_vpc_name    = "{{collector-vpc}}"
@@ -35,9 +35,9 @@ Above variables can be set either by specifying it through [Environment Variable
     # Note: For each mirror VPC and regions, user needs to repeat above block accordingly.
   ]
 
-  
+
   # Mirror Resource Filtering
-  
+
   mirror_vpc_subnets = {
     "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
   }
@@ -45,7 +45,7 @@ Above variables can be set either by specifying it through [Environment Variable
   mirror_vpc_instances = {
     "{{collector_project_id--mirror_vpc_name--region}}" = ["{{instance_id}}"]
 
-    # Note: Allowed only if mirror and collector vpc are in same project.  
+    # Note: Allowed only if mirror and collector vpc are in same project.
   }
 
   mirror_vpc_tags = {

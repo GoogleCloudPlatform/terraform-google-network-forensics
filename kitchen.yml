@@ -29,7 +29,7 @@ suites:
     driver:
       name: "terraform"
       command_timeout: 1800
-      root_module_directory: test/fixtures/basic_configuration/        
+      root_module_directory: test/fixtures/basic_configuration/
     verifier:
       name: terraform
       color: true
@@ -66,7 +66,7 @@ suites:
           backend: gcp
           controls:
             - gcp
-  
+
   - name: "multiple_vpc_support"
     driver:
       name: "terraform"

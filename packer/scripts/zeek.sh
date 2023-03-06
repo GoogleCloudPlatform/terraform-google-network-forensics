@@ -1,3 +1,4 @@
+#! /bin/bash
 #  Copyright 2021 Google LLC
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +18,6 @@
 # After the packages are installed, the Zeek repository is cloned and installed.
 # After the installation, it copies custom Zeek scripts to their respective directory and appends the content to the "local.zeek" file for loading custom Zeek scripts.
 # Further, it adds Zeek path to environment variables and starts the ZeekControl (a tool for operating Zeek installations) to manage Zeek.
-
-
-#! /bin/bash
 
 crontab -r
 

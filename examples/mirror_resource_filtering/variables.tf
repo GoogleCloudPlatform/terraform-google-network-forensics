@@ -24,11 +24,6 @@ variable "credentials" {
   default     = ""
 }
 
-variable "bucket" {
-  description = "Name of the bucket to store .tfstate file remotely."
-  type        = string
-}
-
 # -------------------------------------------------------------- #
 # MODULE VARIABLES
 # -------------------------------------------------------------- #
@@ -73,22 +68,4 @@ variable "mirror_vpc_instances" {
   description = "Mirror VPC Instances list to be mirrored. (Note: Mirror VPC should reside in the same project as collector VPC because cross project referencing of instances is not allowed by GCP)"
   type        = map(list(string))
   default     = {}
-}
-
-variable "ip_protocols" {
-  description = "Protocols that apply as a filter on mirrored traffic. Possible values: [\"tcp\", \"udp\", \"icmp\"]"
-  type        = list(string)
-  default     = []
-}
-
-variable "direction" {
-  description = "Direction of traffic to mirror. Default value: \"BOTH\" Possible values: [\"INGRESS\", \"EGRESS\", \"BOTH\"]"
-  type        = string
-  default     = "BOTH"
-}
-
-variable "cidr_ranges" {
-  description = "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header. Only IPv4 is supported."
-  type        = list(string)
-  default     = []
 }
