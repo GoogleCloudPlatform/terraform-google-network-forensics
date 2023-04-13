@@ -21,18 +21,71 @@ steps:
   - 'TF_VAR_org_id=$_ORG_ID'
   - 'TF_VAR_folder_id=$_FOLDER_ID'
   - 'TF_VAR_billing_account=$_BILLING_ACCOUNT'
-- id: create
+
+# examples/basic_configuration
+- id: basic-config-example-init
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create']
-- id: converge
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/basic_configuration --stage init --verbose']
+  waitFor:
+    - prepare
+- id: basic-config-example-apply
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge']
-- id: verify
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/basic_configuration --stage apply --verbose']
+- id: basic-config-example-verify
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify']
-- id: destroy
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/basic_configuration --stage verify --verbose']
+- id: basic-config-example-teardown
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy']
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/basic_configuration --stage teardown --verbose']
+
+# examples/mirror_resource_filtering
+- id: mirror-resource-filtering-example-init
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage init --verbose']
+  waitFor:
+    - prepare
+- id: mirror-resource-filtering-example-apply
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage apply --verbose']
+- id: mirror-resource-filtering-example-verify
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage verify --verbose']
+- id: mirror-resource-filtering-example-teardown
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage teardown --verbose']
+
+# examples/multiple_vpc_support
+- id: multiple-vpc-support-example-init
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage init --verbose']
+  waitFor:
+    - prepare
+- id: multiple-vpc-support-example-apply
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage apply --verbose']
+- id: multiple-vpc-support-example-verify
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage verify --verbose']
+- id: multiple-vpc-support-example-teardown
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage teardown --verbose']
+
+  # examples/packet_mirroring_traffic_filtering
+- id: packet-mirroring-traffic-filtering-example-init
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage init --verbose']
+  waitFor:
+    - prepare
+- id: packet-mirroring-traffic-filtering-example-apply
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage apply --verbose']
+- id: packet-mirroring-traffic-filtering-example-verify
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage verify --verbose']
+- id: packet-mirroring-traffic-filtering-example-teardown
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage teardown --verbose']
+
 tags:
 - 'ci'
 - 'integration'
