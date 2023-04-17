@@ -1,3 +1,4 @@
+#! /bin/bash
 #  Copyright 2021 Google LLC
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +17,6 @@
 # This script adds the cloud agent's package repository to our VM and installs the Fluentd (Cloud Logging agent).
 # After the installation, it starts the Fluentd service.
 # Further, it adds the Zeek configuration file to its respective Fluentd directory and restarts the Fluentd service.
-
-
-#! /bin/bash
 
 curl -sSO https://dl.google.com/cloudagents/add-logging-agent-repo.sh
 bash add-logging-agent-repo.sh

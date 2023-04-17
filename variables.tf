@@ -18,7 +18,7 @@
 # PROJECT variables
 # -------------------------------------------------------------- #
 
-variable "gcp_project" {
+variable "project_id" {
   description = "GCP Project Id"
   type        = string
 }

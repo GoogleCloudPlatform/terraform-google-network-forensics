@@ -1,3 +1,4 @@
+#! /bin/bash
 #  Copyright 2021 Google LLC
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +20,6 @@
 # Further, it adds Zeek path to environment variables and starts the ZeekControl (a tool for operating Zeek installations) to manage Zeek.
 
 
-#! /bin/bash
 
 crontab -r
 

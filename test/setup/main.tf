@@ -14,32 +14,15 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.0"
-}
-
-provider "google-beta" {
-  version = "~> 3.0"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
-module "project_ci_vm" {
+module "project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 9.0"
+  version = "~> 14.0"
 
-  name                 = "ci-vm-module"
-  random_project_id    = true
-  org_id               = var.org_id
-  folder_id            = var.folder_id
-  billing_account      = var.billing_account
-  skip_gcloud_download = true
+  name              = "ci-network-forensics"
+  random_project_id = true
+  org_id            = var.org_id
+  folder_id         = var.folder_id
+  billing_account   = var.billing_account
 
   activate_apis = [
     "cloudresourcemanager.googleapis.com",

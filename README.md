@@ -30,9 +30,9 @@ Examples of how to use these modules can be found in the [examples](examples) fo
     - mirror-vpc subnets
     - mirror-vpc tags
     - mirror-vpc instances
-  
+
   with optional parametes like: ip_protocols, direction, & cidr_ranges.
-- Enables packaging of logs in order to send it to Chronicle Platform.  
+- Enables packaging of logs in order to send it to Chronicle Platform.
 
 
 ## Pre-requisites
@@ -58,7 +58,7 @@ Examples of how to use these modules can be found in the [examples](examples) fo
 
 #### Create Your Own Custom Image
 - One can make their own custom image by following [this](packer/README.md) documentation.
-- Once the custom image is created, change the [`golden_image`](#inputs) variable value with your custom image name to use it in terraform script. 
+- Once the custom image is created, change the [`golden_image`](#inputs) variable value with your custom image name to use it in terraform script.
 
 
 ### IAM
@@ -232,14 +232,12 @@ Please see [contributing guidelines](CONTRIBUTING.md) for information on contrib
 ## Troubleshooting
 
 - If you get error: `Error: Error waiting for Adding Network Peering: An IP range in the peer network (X.X.X.X/X) overlaps with an IP range in the local network (X.X.X.X/X) allocated by resource (projects/<project-id>/regions/<region>/subnetworks/<subnet-id>).`
-  
+
   **Reason:** A subnet CIDR range in one peered VPC network cannot overlap with a static route in another peered network. This rule covers both subnet routes and static routes. <br>
-  Refer: https://cloud.google.com/vpc/docs/vpc-peering#restrictions 
-  
+  Refer: https://cloud.google.com/vpc/docs/vpc-peering#restrictions
+
   **Solution**:
     Users should establish a new configuration with mirror VPCs whose CIDR ranges clash with those of the present infrastructure. Following that, a new collector VPC will be launched, as well as a new set of mirror VPCs will be mirrored, which will resolve the overlapping CIDR problem.
-
-    
 
 [terraform-download]: https://www.terraform.io/downloads.html
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google

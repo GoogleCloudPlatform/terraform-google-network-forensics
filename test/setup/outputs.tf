@@ -15,17 +15,10 @@
  */
 
 output "project_id" {
-  value = module.project_ci_vm.project_id
+  value = module.project.project_id
 }
 
 output "sa_key" {
-  value     = google_service_account_key.ci_vm_account.private_key
+  value     = google_service_account_key.int_test.private_key
   sensitive = true
-}
-
-output "service_account" {
-  value = {
-    email  = google_service_account.ci_vm_account.email
-    scopes = ["cloud-platform"]
-  }
 }

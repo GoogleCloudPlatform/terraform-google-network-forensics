@@ -29,20 +29,20 @@ locals {
   ]
 }
 
-resource "google_service_account" "ci_vm_account" {
-  project      = module.project_ci_vm.project_id
-  account_id   = "ci-vm-account"
-  display_name = "ci-vm-account"
+resource "google_service_account" "int_test" {
+  project      = module.project.project_id
+  account_id   = "ci-network-forensics-account"
+  display_name = "ci-network-forensics-account"
 }
 
-resource "google_project_iam_member" "ci_vm_account" {
-  count = length(local.vm_required_roles)
+resource "google_project_iam_member" "int_test" {
+  for_each = toset(local.vm_required_roles)
 
-  project = module.project_ci_vm.project_id
-  role    = local.vm_required_roles[count.index]
-  member  = "serviceAccount:${google_service_account.ci_vm_account.email}"
+  project = module.project.project_id
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.int_test.email}"
 }
 
-resource "google_service_account_key" "ci_vm_account" {
-  service_account_id = google_service_account.ci_vm_account.id
+resource "google_service_account_key" "int_test" {
+  service_account_id = google_service_account.int_test.id
 }
