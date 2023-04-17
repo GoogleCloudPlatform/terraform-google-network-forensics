@@ -15,8 +15,8 @@
  */
 
 module "google_zeek_automation" {
-  source                = "../.."
-  project_id            = var.project_id
+  source     = "../.."
+  project_id = var.project_id
 
   collector_vpc_name = "collector-vpc"
 
