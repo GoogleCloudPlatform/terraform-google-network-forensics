@@ -13,7 +13,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-
 sudo userdel -r packer
 
 INTERFACE_NAME=$(ip -br link | grep -v LOOPBACK | awk '{ print $1 }')
