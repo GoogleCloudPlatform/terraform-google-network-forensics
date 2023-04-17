@@ -44,6 +44,7 @@ steps:
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage init --verbose']
   waitFor:
     - prepare
+    - basic-config-example-teardown
 - id: mirror-resource-filtering-example-apply
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/mirror_resource_filtering --stage apply --verbose']
@@ -60,6 +61,7 @@ steps:
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage init --verbose']
   waitFor:
     - prepare
+    - mirror-resource-filtering-example-teardown
 - id: multiple-vpc-support-example-apply
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/multiple_vpc_support --stage apply --verbose']
@@ -76,6 +78,7 @@ steps:
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage init --verbose']
   waitFor:
     - prepare
+    - multiple-vpc-support-example-teardown
 - id: packet-mirroring-traffic-filtering-example-apply
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestAll/examples/packet_mirroring_traffic_filtering --stage apply --verbose']
