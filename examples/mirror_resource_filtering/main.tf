@@ -14,26 +14,31 @@
  * limitations under the License.
  */
 
-# -------------------------------------------------------------- #
-# PROVIDER CONFIGURATION
-# -------------------------------------------------------------- #
-
-provider "google" {
-  credentials = var.credentials
-}
-
-# -------------------------------------------------------------- #
-# MODULE CONFIGURATIONS
-# -------------------------------------------------------------- #
-
 module "google_zeek_automation" {
-  source                = "<link>/google_zeek_automation"
-  gcp_project           = var.gcp_project_id
+  source                = "../.."
+  project_id            = var.project_id
   service_account_email = var.service_account_email
 
-  collector_vpc_name   = var.collector_vpc_name
-  subnets              = var.subnets
-  mirror_vpc_subnets   = var.mirror_vpc_subnets
-  mirror_vpc_instances = var.mirror_vpc_instances
-  mirror_vpc_tags      = var.mirror_vpc_tags
+  collector_vpc_name = "collector-vpc"
+  subnets = [
+    # For each mirror VPC and regions, user needs to repeat below block accordingly.
+    {
+      mirror_vpc_network          = "{{mirror_vpc_network}}"
+      collector_vpc_subnet_cidr   = "{{subnet_cidr}}"
+      collector_vpc_subnet_region = "{{region}}"
+    },
+  ]
+
+  # Mirror Resource Filtering
+  mirror_vpc_subnets = {
+    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
+  }
+  # Allowed only if mirror and collector vpc are in same project.
+  mirror_vpc_instances = {
+    "{{collector_project_id--mirror_vpc_name--region}}" = ["{{instance_id}}"]
+
+  }
+  mirror_vpc_tags = {
+    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{tag-1}}", "{{tag-2}}"]
+  }
 }

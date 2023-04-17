@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-# -------------------------------------------------------------- #
-# PROVIDER CONFIGURATION
-# -------------------------------------------------------------- #
-
-provider "google" {
-  credentials = var.credentials
-}
-
-# -------------------------------------------------------------- #
-# MODULE CONFIGURATIONS
-# -------------------------------------------------------------- #
-
 module "google_zeek_automation" {
-  source                = "<link>/google_zeek_automation"
-  gcp_project           = var.gcp_project_id
+  source                = "../.."
+  project_id            = var.project_id
   service_account_email = var.service_account_email
 
-  collector_vpc_name = var.collector_vpc_name
-  subnets            = var.subnets
-  mirror_vpc_subnets = var.mirror_vpc_subnets
+  collector_vpc_name = "collector-vpc"
+  subnets = [
+    {
+      mirror_vpc_network          = "projects/mirror-project-123/global/networks/test-mirror"
+      collector_vpc_subnet_cidr   = "10.11.0.0/24"
+      collector_vpc_subnet_region = "us-west1"
+    },
+  ]
+
+  mirror_vpc_subnets = {
+    "mirror-project-123--mirror_vpc_name--us-west1" = ["projects/mirror-project-123/regions/us-west1/subnetworks/subnet-01"]
+  }
 }

@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-# -------------------------------------------------------------- #
-# PROVIDER CONFIGURATION
-# -------------------------------------------------------------- #
-
-provider "google" {
-  credentials = var.credentials
-}
-
-# -------------------------------------------------------------- #
-# MODULE CONFIGURATIONS
-# -------------------------------------------------------------- #
-
 module "google_zeek_automation" {
-  source                = "<link>/google_zeek_automation"
-  gcp_project           = var.gcp_project_id
+  source                = "../.."
+  project_id            = var.project_id
   service_account_email = var.service_account_email
 
-  collector_vpc_name = var.collector_vpc_name
-  subnets            = var.subnets
-  mirror_vpc_subnets = var.mirror_vpc_subnets
+  collector_vpc_name = "collector-vpc"
 
-  # Optional Parameters
-  ip_protocols = var.ip_protocols
-  direction    = var.direction
-  cidr_ranges  = var.cidr_ranges
+  subnets = [
+    {
+      mirror_vpc_network          = "{{mirror_vpc_network}}"
+      collector_vpc_subnet_cidr   = "{{subnet_cidr}}"
+      collector_vpc_subnet_region = "{{region}}"
+    },
+    # Note: For each mirror VPC and regions, user needs to repeat above block accordingly.
+  ]
+
+  mirror_vpc_subnets = {
+    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
+  }
+
+
+  # Packet Mirroring Traffic Filtering
+  ip_protocols = ["{{protocol}}"]           # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
+  direction    = "{{direction_of_traffic}}" # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"
+  cidr_ranges  = ["{{cidr}}"]               # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
 }
