@@ -7,7 +7,6 @@ This example demonstrates how to configure packet mirroring for multiple mirror 
 module "google_zeek_automation" {
   source                = "<link>/google_zeek_automation"
   gcp_project           = var.gcp_project_id
-  service_account_email = var.service_account_email
 
   collector_vpc_name    = var.collector_vpc_name
   subnets               = var.subnets
@@ -25,9 +24,6 @@ Above variables can be set either by specifying it through [Environment Variable
 
 ```tf
   gcp_project_id = "{{collector_project_id}}"
-
-  service_account_email = "{{User's Service Account Email.}}"
-
   collector_vpc_name    = "{{collector-vpc}}"
 
   subnets = [
@@ -100,23 +96,12 @@ Above variables can be set either by specifying it through [Environment Variable
   cidr_ranges = ["{{cidr}}"]                   # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
 
 ```
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| bucket | Name of the bucket to store .tfstate file remotely. | `string` | n/a | yes |
-| gcp_project_id | GCP Project ID where collector vpc will be provisioned. | `string` | n/a | yes |
-| service_account_email | User's Service Account Email. | `string` | n/a | yes |
-| collector_vpc_name | This is name of collector vpc. | `string` | n/a | yes |
-| subnets | The list of subnets being created | <pre>list(object({<br>    mirror_vpc_network      = string<br>    collector_vpc_subnet_cidr   = string<br>    collector_vpc_subnet_region = string<br>  }))</pre> | n/a | yes |
-| cidr\_ranges | IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header. Only IPv4 is supported. | `list(string)` | `[]` | no |
-| credentials | Path to a service account credentials file with rights to run the Google Zeek Automation. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
-| direction | Direction of traffic to mirror. Default value: "BOTH" Possible values: ["INGRESS", "EGRESS", "BOTH"] | `string` | `"BOTH"` | no |
-| ip\_protocols | Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"] | `list(string)` | `[]` | no |
-| mirror\_vpc\_instances | Mirror VPC Instances list to be mirrored. <br> <br>**(Note: Mirror VPC should reside in the same project as collector VPC because cross project referencing of instances is not allowed by GCP)**  | `map(list(string))` | `{}` | no |
-| mirror\_vpc\_subnets | Mirror VPC Subnets list to be mirrored. | `map(list(string))` | `{}` | no |
-| mirror\_vpc\_tags | Mirror VPC Tags list to be mirrored. | `map(list(string))` | `{}` | no |
+| project\_id | GCP Project ID where collector vpc will be provisioned. | `string` | n/a | yes |
 
 ## Outputs
 
@@ -132,6 +117,8 @@ Above variables can be set either by specifying it through [Environment Variable
 | intance\_template\_ids | Instance Templates identifier for the resource with format projects/{{project}}/global/instanceTemplates/{{name}} |
 | loadbalancer\_ids | Internal Load Balancer identifier for the resource with format projects/{{project}}/regions/{{region}}/backendServices/{{name}} |
 | packet\_mirroring\_policy\_ids | Packet Mirroring Policy identifier for the resource with format projects/{{project}}/regions/{{region}}/packetMirrorings/{{name}} |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
 To provision this example, run the following from within this directory:

@@ -134,6 +134,10 @@ resource "google_compute_network_peering" "collector_vpc_network_peering" {
 # -------------------------------------------------------------- #
 # INSTANCE-TEMPLATE
 # -------------------------------------------------------------- #
+resource "google_service_account" "compute_sa" {
+  account_id   = "zeek-compute-sa"
+  display_name = "Compute Service Account for Zeek instances"
+}
 
 resource "google_compute_instance_template" "main" {
   for_each    = local.collector_vpc_subnets
@@ -161,7 +165,7 @@ resource "google_compute_instance_template" "main" {
 
   # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
   service_account {
-    email  = var.service_account_email
+    email  = google_service_account.compute_sa.email
     scopes = ["cloud-platform", "logging-write", "monitoring"]
   }
 

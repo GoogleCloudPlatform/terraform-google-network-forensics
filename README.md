@@ -96,7 +96,6 @@ In order to operate with the Service Account you must activate the following API
 module "google_zeek_automation" {
   source                = "<link>/google_zeek_automation"
   gcp_project           = "collector_project-123"
-  service_account_email = "service-account@collector-project-123.iam.gserviceaccount.com"
 
   collector_vpc_name    = "collector-vpc"
   subnets = [
@@ -129,20 +128,31 @@ Then perform the following commands on the root folder:
 - [Terraform][terraform-download] v0.13.5
 - [Terraform Provider for GCP][terraform-provider-google] v3.55
 
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| gcp\_project | GCP Project ID where collector vpc will be provisioned. | `string` | n/a | yes |
+| auto\_create\_subnetworks | When set to true, the network is created in 'auto subnet mode' and it will create a subnet for each region automatically across the 10.128.0.0/9 address range. When set to false, the network is created in 'custom subnet mode' so the user can explicitly connect subnetwork resources. | `bool` | `false` | no |
+| cidr\_ranges | IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header. Only IPv4 is supported. | `list(string)` | `[]` | no |
+| collector\_vpc\_name | Portion of name to be generated for the VPC network. | `string` | n/a | yes |
+| delete\_default\_internet\_gateway\_routes | If set, ensure that all routes within the network specified whose names begin with 'default-route' and with a next hop of 'default-internet-gateway' are deleted | `bool` | `false` | no |
+| direction | Direction of traffic to mirror. Default value: "BOTH" Possible values: ["INGRESS", "EGRESS", "BOTH"] | `string` | `"BOTH"` | no |
+| export\_local\_custom\_routes | Export custom routes to peer network from local network. | `bool` | `false` | no |
+| export\_peer\_custom\_routes | Export custom routes to local network from peer network. | `bool` | `false` | no |
 | golden\_image | This is name of zeek-fluentd packer image | `string` | `"projects/zeekautomation/global/images/zeek-fluentd-golden-image-v1"` | no |
-| collector\_vpc\_name | This is name of collector vpc. | `string` | n/a | yes |
-| mirror\_vpc\_instances | Mirror VPC Instances list to be mirrored. <br> <br>**(Note: Mirror VPC should reside in the same project as collector VPC because cross project referencing of instances is not allowed by GCP)**  | `map(list(string))` | `{}` | no |
+| ip\_protocols | Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"] | `list(string)` | `[]` | no |
+| machine\_type | This is instance template machine type. | `string` | `"e2-medium"` | no |
+| mirror\_vpc\_instances | Mirror VPC Instances list to be mirrored. | `map(list(string))` | `{}` | no |
 | mirror\_vpc\_subnets | Mirror VPC Subnets list to be mirrored. | `map(list(string))` | `{}` | no |
 | mirror\_vpc\_tags | Mirror VPC Tags list to be mirrored. | `map(list(string))` | `{}` | no |
-| service\_account\_email | User's Service Account Email. | `string` | n/a | yes |
-| subnets | The list of subnets being created | <pre>list(object({<br>    mirror_vpc_network      = string<br>    collector_vpc_subnet_cidr   = string<br>    collector_vpc_subnet_region = string<br>  }))</pre> | n/a | yes |
-
+| mtu | The network MTU. Must be a value between 1460 and 1500 inclusive. If set to 0 (meaning MTU is unset), the network will default to 1460 automatically. | `number` | `0` | no |
+| private\_ip\_google\_access | When enabled, VMs in this subnetwork without external IP addresses can access Google APIs and services by using Private Google Access. | `bool` | `true` | no |
+| project\_id | GCP Project Id | `string` | n/a | yes |
+| subnets | The list of subnets being created | <pre>list(object({<br>    mirror_vpc_network          = string<br>    collector_vpc_subnet_cidr   = string<br>    collector_vpc_subnet_region = string<br>  }))</pre> | n/a | yes |
+| template\_description | This is instance template description. | `string` | `"This instance template is used to create zeek-fluentd instances."` | no |
+| vpc\_description | The description of the VPC Network. | `string` | `"This is collector VPC network."` | no |
+| vpc\_routing\_mode | Routing mode of the VPC. A 'GLOBAL' routing mode can have adverse impacts on load balancers. Prefer 'REGIONAL'. | `string` | `"REGIONAL"` | no |
 
 ## Outputs
 
@@ -158,6 +168,8 @@ Then perform the following commands on the root folder:
 | intance\_template\_ids | Instance Templates identifier for the resource with format projects/{{project}}/global/instanceTemplates/{{name}} |
 | loadbalancer\_ids | Internal Load Balancer identifier for the resource with format projects/{{project}}/regions/{{region}}/backendServices/{{name}} |
 | packet\_mirroring\_policy\_ids | Packet Mirroring Policy identifier for the resource with format projects/{{project}}/regions/{{region}}/packetMirrorings/{{name}} |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 #### Specifying credentials
 

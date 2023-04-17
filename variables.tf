@@ -114,11 +114,6 @@ variable "machine_type" {
   default     = "e2-medium"
 }
 
-variable "service_account_email" {
-  description = "User's Service Account Email."
-  type        = string
-}
-
 # -------------------------------------------------------------- #
 # PACKET-MIRRORING module variables
 # -------------------------------------------------------------- #

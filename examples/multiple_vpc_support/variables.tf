@@ -18,8 +18,3 @@ variable "project_id" {
   description = "GCP Project ID where collector vpc will be provisioned."
   type        = string
 }
-
-variable "service_account_email" {
-  description = "User's Service Account Email."
-  type        = string
-}

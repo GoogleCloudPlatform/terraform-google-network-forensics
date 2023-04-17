@@ -17,7 +17,6 @@
 module "google_zeek_automation" {
   source                = "../.."
   project_id            = var.project_id
-  service_account_email = var.service_account_email
 
   collector_vpc_name = "collector-vpc"
   subnets = [
