@@ -135,6 +135,7 @@ resource "google_compute_network_peering" "collector_vpc_network_peering" {
 # INSTANCE-TEMPLATE
 # -------------------------------------------------------------- #
 resource "google_service_account" "compute_sa" {
+  project      = var.project_id
   account_id   = "zeek-compute-sa"
   display_name = "Compute Service Account for Zeek instances"
 }

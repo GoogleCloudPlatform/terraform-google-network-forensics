@@ -21,13 +21,29 @@ module "google_zeek_automation" {
   collector_vpc_name = "collector-vpc"
   subnets = [
     {
-      mirror_vpc_network          = "projects/mirror-project-123/global/networks/test-mirror"
-      collector_vpc_subnet_cidr   = "10.11.0.0/24"
-      collector_vpc_subnet_region = "us-west1"
+      mirror_vpc_network          = module.network.network_id
+      collector_vpc_subnet_cidr   = module.network.subnets_ips[0]
+      collector_vpc_subnet_region = module.network.subnets_regions[0]
     },
   ]
 
   mirror_vpc_subnets = {
-    "mirror-project-123--mirror_vpc_name--us-west1" = ["projects/mirror-project-123/regions/us-west1/subnetworks/subnet-01"]
+    "${var.project_id}--${module.network.network_name}--${module.network.subnets_regions[0]}" = [module.network.subnets_ids[0]]
   }
+}
+
+module "network" {
+  source  = "terraform-google-modules/network/google"
+  version = "~> 7.0.0"
+
+  project_id   = var.project_id
+  network_name = "example-mirrored-vpc"
+
+  subnets = [
+    {
+      subnet_name           = "subnet-01"
+      subnet_ip             = "10.10.10.0/24"
+      subnet_region         = "us-west1"
+    }
+  ]
 }

@@ -22,20 +22,36 @@ module "google_zeek_automation" {
 
   subnets = [
     {
-      mirror_vpc_network          = "{{mirror_vpc_network}}"
-      collector_vpc_subnet_cidr   = "{{subnet_cidr}}"
-      collector_vpc_subnet_region = "{{region}}"
+      mirror_vpc_network          = module.network.network_id
+      collector_vpc_subnet_cidr   = module.network.subnets_ips[0]
+      collector_vpc_subnet_region = module.network.subnets_regions[0]
     },
     # Note: For each mirror VPC and regions, user needs to repeat above block accordingly.
   ]
 
   mirror_vpc_subnets = {
-    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
+    "${var.project_id}--${module.network.network_name}--${module.network.subnets_regions[0]}" = [module.network.subnets_ids[0]]
   }
 
 
   # Packet Mirroring Traffic Filtering
-  ip_protocols = ["{{protocol}}"]           # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
-  direction    = "{{direction_of_traffic}}" # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"
-  cidr_ranges  = ["{{cidr}}"]               # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
+  ip_protocols = ["tcp","udp"] # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
+  direction    = "BOTH"        # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"
+  cidr_ranges  = ["0.0.0.0/0"] # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
+}
+
+module "network" {
+  source  = "terraform-google-modules/network/google"
+  version = "~> 7.0.0"
+
+  project_id   = var.project_id
+  network_name = "example-mirrored-vpc"
+
+  subnets = [
+    {
+      subnet_name           = "subnet-01"
+      subnet_ip             = "10.10.10.0/24"
+      subnet_region         = "us-west1"
+    }
+  ]
 }

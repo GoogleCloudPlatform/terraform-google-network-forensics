@@ -22,22 +22,54 @@ module "google_zeek_automation" {
   subnets = [
     # For each mirror VPC and regions, user needs to repeat below block accordingly.
     {
-      mirror_vpc_network          = "{{mirror_vpc_network}}"
-      collector_vpc_subnet_cidr   = "{{subnet_cidr}}"
-      collector_vpc_subnet_region = "{{region}}"
+      mirror_vpc_network          = module.network.network_id
+      collector_vpc_subnet_cidr   = module.network.subnets_ips[0]
+      collector_vpc_subnet_region = module.network.subnets_regions[0]
     },
   ]
 
   # Mirror Resource Filtering
   mirror_vpc_subnets = {
-    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{subnet_id}}"]
+    "${var.project_id}--${module.network.network_name}--${module.network.subnets_regions[0]}" = [module.network.subnets_ids[0]]
   }
   # Allowed only if mirror and collector vpc are in same project.
   mirror_vpc_instances = {
-    "{{collector_project_id--mirror_vpc_name--region}}" = ["{{instance_id}}"]
+    "${var.project_id}--${module.network.network_name}--${module.network.subnets_regions[0]}" = [google_compute_instance.instance1.id]
 
   }
   mirror_vpc_tags = {
-    "{{mirror_project_id--mirror_vpc_name--region}}" = ["{{tag-1}}", "{{tag-2}}"]
+    "${var.project_id}--${module.network.network_name}--${module.network.subnets_regions[0]}" = ["test-tag-1"]
   }
+}
+
+module "network" {
+  source  = "terraform-google-modules/network/google"
+  version = "~> 7.0.0"
+
+  project_id   = var.project_id
+  network_name = "example-mirrored-vpc"
+
+  subnets = [
+    {
+      subnet_name           = "subnet-01"
+      subnet_ip             = "10.10.10.0/24"
+      subnet_region         = "us-west1"
+    }
+  ]
+}
+
+resource "google_compute_instance" "instance1" {
+  project      = var.project_id
+  zone         = "us-west1-a"
+  name         = "instance1"
+  machine_type = "e2-medium"
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+  network_interface {
+    network = module.network.network_name
+  }
+  tags = ["test-tag-1"]
 }
