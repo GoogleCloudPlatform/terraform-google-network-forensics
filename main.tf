@@ -23,13 +23,13 @@ locals {
   packet_mirroring_mirror_instance_sources = var.mirror_vpc_instances
 
   collector_vpc_name = var.collector_vpc_name
-  collector_vpc_subnets = {
-    for subnet in var.subnets : "${element(split("/", subnet.mirror_vpc_network), 1)}--${element(split("/", subnet.mirror_vpc_network), 4)}--${subnet.collector_vpc_subnet_region}" => subnet
-  }
+  # collector_vpc_subnets = {
+  #   for subnet in var.subnets : "${element(split("/", subnet.mirror_vpc_network), 1)}--${element(split("/", subnet.mirror_vpc_network), 4)}--${subnet.collector_vpc_subnet_region}" => subnet
+  # }
 
-  collector_vpc_subnets_cidrs = {
-    for subnet in var.subnets : "${element(split("/", subnet.mirror_vpc_network), 1)}--${element(split("/", subnet.mirror_vpc_network), 4)}--${subnet.collector_vpc_subnet_region}" => subnet.collector_vpc_subnet_cidr
-  }
+  # collector_vpc_subnets_cidrs = {
+  #   for subnet in var.subnets : "${element(split("/", subnet.mirror_vpc_network), 1)}--${element(split("/", subnet.mirror_vpc_network), 4)}--${subnet.collector_vpc_subnet_region}" => subnet.collector_vpc_subnet_cidr
+  # }
 
   subnet_key_count = [
     for key in var.subnets : "${element(split("/", key.mirror_vpc_network), 1)}--${element(split("/", key.mirror_vpc_network), 4)}--${key.collector_vpc_subnet_region}"
@@ -54,7 +54,7 @@ resource "google_compute_network" "main" {
 
 
 resource "google_compute_subnetwork" "main" {
-  for_each                 = local.collector_vpc_subnets
+  for_each                 = toset(var.subnets)
   name                     = format("%s-%s-%02d", local.collector_vpc_name, "subnet", index(var.subnets, each.value) + 1)
   project                  = var.project_id
   ip_cidr_range            = each.value.collector_vpc_subnet_cidr
@@ -141,7 +141,7 @@ resource "google_service_account" "compute_sa" {
 }
 
 resource "google_compute_instance_template" "main" {
-  for_each    = local.collector_vpc_subnets
+  for_each    = toset(var.subnets)
   name        = format("%s-%02d", local.collector_vpc_name, index(var.subnets, each.value) + 1)
   project     = var.project_id
   description = var.template_description
@@ -152,7 +152,7 @@ resource "google_compute_instance_template" "main" {
       PROJECT_ID     = element(split("/", each.value.mirror_vpc_network), 1)
       VPC_NAME       = element(split("/", each.value.mirror_vpc_network), 4)
       IP_CIDRS       = format("0.0.0.0/0\tAll-Traffic\n"),
-      COLLECTOR_CIDR = lookup(local.collector_vpc_subnets_cidrs, each.key)
+      COLLECTOR_CIDR = each.value.collector_vpc_subnet_cidr
   })
 
   machine_type   = var.machine_type
@@ -287,7 +287,7 @@ resource "google_compute_forwarding_rule" "main" {
 # -------------------------------------------------------------- #
 
 resource "google_compute_packet_mirroring" "main" {
-  for_each = local.collector_vpc_subnets
+  for_each = toset(var.subnets)
   name     = format("%s-%02d", local.collector_vpc_name, index(local.subnet_key_count, each.key) + 1)
   project  = var.project_id
   region   = each.value.collector_vpc_subnet_region
