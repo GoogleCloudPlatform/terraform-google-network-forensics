@@ -67,9 +67,9 @@ module "google_zeek_automation" {
   }
 
   # Packet Mirroring Traffic Filtering
-  ip_protocols = ["tcp","udp"] # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
-  direction    = "BOTH"        # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"
-  cidr_ranges  = ["0.0.0.0/0"] # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
+  ip_protocols = ["tcp", "udp"] # Protocols that apply as a filter on mirrored traffic. Possible values: ["tcp", "udp", "icmp"]
+  direction    = "BOTH"         # Direction of traffic to mirror. Possible values: "INGRESS", "EGRESS", "BOTH"
+  cidr_ranges  = ["0.0.0.0/0"]  # "IP CIDR ranges that apply as a filter on the source (ingress) or destination (egress) IP in the IP header."
 }
 
 module "network1" {
@@ -81,9 +81,9 @@ module "network1" {
 
   subnets = [
     {
-      subnet_name           = "subnet-01"
-      subnet_ip             = "10.10.10.0/24"
-      subnet_region         = "us-west1"
+      subnet_name   = "subnet-01"
+      subnet_ip     = "10.10.10.0/24"
+      subnet_region = "us-west1"
     }
   ]
 }
@@ -97,9 +97,9 @@ module "network2" {
 
   subnets = [
     {
-      subnet_name           = "subnet-02"
-      subnet_ip             = "10.10.20.0/24"
-      subnet_region         = "us-west2"
+      subnet_name   = "subnet-02"
+      subnet_ip     = "10.10.20.0/24"
+      subnet_region = "us-west2"
     }
   ]
 }
@@ -113,9 +113,9 @@ module "network3" {
 
   subnets = [
     {
-      subnet_name           = "subnet-03"
-      subnet_ip             = "10.10.30.0/24"
-      subnet_region         = "us-central1"
+      subnet_name   = "subnet-03"
+      subnet_ip     = "10.10.30.0/24"
+      subnet_region = "us-central1"
     }
   ]
 }
@@ -129,9 +129,9 @@ module "network4" {
 
   subnets = [
     {
-      subnet_name           = "subnet-04"
-      subnet_ip             = "10.10.40.0/24"
-      subnet_region         = "us-east4"
+      subnet_name   = "subnet-04"
+      subnet_ip     = "10.10.40.0/24"
+      subnet_region = "us-east4"
     }
   ]
 }
