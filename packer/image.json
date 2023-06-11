@@ -7,7 +7,8 @@
     "gce_source_image_family": "debian-10",
     "ssh_username": "packer",
     "custom_image_name": "zeek-fluentd-golden-image-v1",
-    "custom_image_family": "zeek-fluentd-family"
+    "custom_image_family": "zeek-fluentd-family",
+    "machine_type": "e2-medium"
   },
 
   "builders": [
@@ -21,7 +22,8 @@
       "ssh_username": "{{user `ssh_username`}}",
       "image_name": "{{user `custom_image_name`}}",
       "image_description": "packer-{{user `custom_image_name`}}",
-      "image_family": "{{user `custom_image_family`}}"
+      "image_family": "{{user `custom_image_family`}}",
+      "machine_type": "{{user `machine_type`}}"
     }
   ],
 
