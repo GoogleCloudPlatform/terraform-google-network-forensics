@@ -32,7 +32,7 @@ provider "random" {
 
 module "project_ci_vm" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 9.0"
+  version = "~> 18.0"
 
   name                 = "ci-vm-module"
   random_project_id    = true
